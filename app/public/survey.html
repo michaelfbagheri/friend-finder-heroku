@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>survey</title>
+
+    <!-- Latest compiled and minified CSS -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+</head>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand picture" href="#">
+                <img alt="Brand" src="assets/photos/cupid.jpg" style="border-radius: 25px 25px 40px 0px">
+            </a>
+            <div class="title">
+                <h1>Friendship finder</h1>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<body class="mainbackground">
+    <div class="top-bar">
+    </div>
+
+    <div class="container">
+
+
+        <h2>name</h2>
+        <input class="input" id="name" type="text">
+
+        <h2>URL</h2>
+        <input class="input" id="pic-url" type="text">
+
+        <div class="row">
+            <div class="col-12">
+                <h3 class="dropdown-question">1. Your mind is always buzzing with unexplored ideas and plans</h3>
+                <select class="dropdown-Answer" name="test" id="1">
+                    <option value="1">1 (strongly disagree)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (strongly agree)</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="dropdown-question">2. Generally speaking, you rely more on your experience than your
+                    imagination.</h3>
+                <select class="dropdown-Answer" name="test" id="2">
+                    <option value="1">1 (strongly disagree)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (strongly agree)</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="dropdown-question">3. You find it easy to stay relaxed and focused even when there is some
+                    pressure.</h3>
+                <select class="dropdown-Answer" name="test" id="3">
+                    <option value="1">1 (strongly disagree)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (strongly agree)</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="dropdown-question"> 4. You rarely do something just out of sheer curiosity.</h3>
+                <select class="dropdown-Answer" name="test" id="4">
+                    <option value="1">1 (strongly disagree)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (strongly agree)</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="dropdown-question">5. In a discussion, truth should be more important than people’s
+                    sensitivities.</h3>
+                <select class="dropdown-Answer" name="test" id="5">
+                    <option value="1">1 (strongly disagree)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (strongly agree)</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="dropdown-question">6. You think that everyone’s views should be respected regardless of
+                    whether they are supported by facts or not.</h3>
+                <select class="dropdown-Answer" name="test" id="6">
+                    <option value="1">1 (strongly disagree)</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 (strongly agree)</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button class="button" id="submit-button">submit</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button class="button" id="show-match-button">show match</button>
+            </div>
+        </div>
+
+
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+
+                <div id="best-match-info">
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <script>
+
+
+
+
+
+
+            $('#submit-button').on('click', function () {
+
+                var q1 = parseInt($("#1").val())
+                var q2 = parseInt($("#2").val())
+                var q3 = parseInt($("#3").val())
+                var q4 = parseInt($("#4").val())
+                var q5 = parseInt($("#5").val())
+                var q6 = parseInt($("#6").val())
+
+                var user = {
+                    name: $('#name').val().trim(),
+                    address: $('#pic-url').val().trim(),
+                    scores: [
+                        q1,
+                        q2,
+                        q3,
+                        q4,
+                        q5,
+                        q6
+                    ]
+                }
+
+
+
+                $.post("/data/friends", user, function (data) {
+                    console.log('returned from POST call back ' + data)
+                });
+
+            })
+
+
+            var modal = $('#myModal')
+            var span = $('.close')[0]
+
+            $('#show-match-button').on('click', function () {
+                $.ajax({ url: "/data/friends", method: "GET" }).then(function (dataReturned) {
+                    console.log('returned from the GET ajax call promise : ' + dataReturned.name)
+                    console.log('returned from the GET ajax call promise : ' + dataReturned.photo)
+                    $('#best-match-info').append(
+
+                        `
+                        <p>your best match is ${dataReturned.name}</p>
+                        <img src="${dataReturned.photo}" alt="your best match picture">
+
+                        `
+                    )
+
+                    modal.css('display', 'block')
+
+                })
+
+
+            })
+
+            span.onclick = function () {
+                modal.css('display', 'none')
+            }
+            window.onclick = function (event) {
+                modal.css('display', 'none')
+            }
+
+        </script>
+
+    </div>
+</body>
+
+</html>
